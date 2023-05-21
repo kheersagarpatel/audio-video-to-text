@@ -21,10 +21,18 @@ def allowed_file(filename):
 
 def extract_text_from_audio(audio_file):
     recognizer = sr.Recognizer()
-    with sr.AudioFile(audio_file) as source:
-        audio_data = recognizer.record(source)
-        text = recognizer.recognize_google(audio_data)
-    return text
+    try:
+        with sr.AudioFile(audio_file) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_google(audio_data)
+        return text
+    except sr.UnknownValueError:
+        flash('Could not recognize audio')
+    except sr.RequestError:
+        flash('Could not connect to the speech recognition service')
+    except Exception as e:
+        flash(f'Error: {str(e)}')
+    return None
 
 def extract_text_from_video(video_file):
     video = mp.VideoFileClip(video_file)
@@ -42,33 +50,46 @@ def extract_text_from_video(video_file):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file selected')
-            return redirect(request.url)
-
-        file = request.files['file']
-
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            upload_folder = app.config['UPLOAD_FOLDER']
-            os.makedirs(upload_folder, exist_ok=True)
-            filepath = os.path.join(upload_folder, filename)
-            file.save(filepath)
-
-            if filename.lower().endswith(('.mp3', '.wav', '.ogg')):
+        if 'audio' in request.files:
+            audio_file = request.files['audio']
+            if audio_file.filename == '':
+                flash('No audio file selected')
+                return redirect(request.url)
+            if audio_file and allowed_file(audio_file.filename):
+                filename = secure_filename(audio_file.filename)
+                upload_folder = app.config['UPLOAD_FOLDER']
+                os.makedirs(upload_folder, exist_ok=True)
+                filepath = os.path.join(upload_folder, filename)
+                audio_file.save(filepath)
                 text = extract_text_from_audio(filepath)
-            elif filename.lower().endswith(('.mp4', '.webm')):
-                text = extract_text_from_video(filepath)
-            else:
-                flash('Invalid file format')
                 os.remove(filepath)
+                if text:
+                    return render_template('result.html', text=text)
+            else:
+                flash('Invalid audio file format')
+                return redirect(request.url)
+        
+        if 'video' in request.files:
+            video_file = request.files['video']
+            if video_file.filename == '':
+                flash('No video file selected')
+                return redirect(request.url)
+            if video_file and allowed_file(video_file.filename):
+                filename = secure_filename(video_file.filename)
+                upload_folder = app.config['UPLOAD_FOLDER']
+                os.makedirs(upload_folder, exist_ok=True)
+                filepath = os.path.join(upload_folder, filename)
+                video_file.save(filepath)
+                text = extract_text_from_video(filepath)
+                os.remove(filepath)
+                if text:
+                    return render_template('result.html', text=text)
+            else:
+                flash('Invalid video file format')
                 return redirect(request.url)
 
-            os.remove(filepath)
-
-            return render_template('result.html', text=text)
-
     return render_template('upload.html')
+
 
 @app.route('/upload_video', methods=['GET', 'POST'])
 def upload_video():
