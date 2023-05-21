@@ -15,7 +15,7 @@ This project is a Flask-based web application that allows users to upload audio 
    git clone git@github.com:kheersagarpatel/audio-video-to-text.git
    ```
 
-2. Create a virtual environment:
+2. Create a virtual environment (ref: [Create Python Virtual Environments with venv](https://developers.knowivate.com/@kheersagar/creating-python-virtual-environments-on-ubuntu-with-venv)):
 
    ```shell
    python3 -m venv myenvname
