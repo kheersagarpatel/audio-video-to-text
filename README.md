@@ -13,8 +13,6 @@ This project is a Flask-based web application that allows users to upload audio 
 1. Clone the repository:
 
    ```shell
-   git clone git@github.com:kheersagarpatel/audio-video-to-text.git
-   or
    git clone https://github.com/kheersagarpatel/audio-video-to-text.git
    or
    Download as Zip
@@ -29,17 +27,12 @@ This project is a Flask-based web application that allows users to upload audio 
 3. Create a virtual environment (ref: [Create Python Virtual Environments with venv for linux](https://developers.knowivate.com/@kheersagar/creating-python-virtual-environments-on-ubuntu-with-venv)):
 
    ```shell
-   ## For linux
-   python3 -m venv myenvname
-   ## For Windows
    python -m venv myenvname
    ```
 
 3. Activate the virtual environment:
 
    ```shell
-   ## For Linux
-   source myenvname/bin/activate
    ## For Windows (bash only)
    source myenvname/Scripts/activate
    ```
