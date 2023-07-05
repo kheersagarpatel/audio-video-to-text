@@ -6,6 +6,7 @@ This project is a Flask-based web application that allows users to upload audio 
 
 - Python 3.8.10 (This is preferred version)
 - virtualenv (python -m pip install --user virtualenv)
+- GitBash (optional but recommended)
 
 ## Installation
 
@@ -39,8 +40,8 @@ This project is a Flask-based web application that allows users to upload audio 
    ```shell
    ## For Linux
    source myenvname/bin/activate
-   ## For Windows
-   myenvname\Scripts\activate
+   ## For Windows (bash only)
+   source myenvname/Scripts/activate
    ```
 
 4. Install the required dependencies:
