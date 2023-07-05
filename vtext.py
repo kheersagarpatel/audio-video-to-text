@@ -112,7 +112,10 @@ def upload_video():
             text_from_video = extract_text_from_video(filepath)
 
             # Delete the uploaded video file
-            os.remove(filepath)
+            try:
+                os.remove(filepath)
+            except Exception as e:
+                print(e)
 
             return render_template('result.html', text=text_from_video)
 
