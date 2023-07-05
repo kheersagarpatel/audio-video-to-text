@@ -4,8 +4,8 @@ This project is a Flask-based web application that allows users to upload audio 
 
 ## Prerequisites
 
-- Python 3.x
-- virtualenv
+- Python 3.8.10 (This is preferred version)
+- virtualenv (python -m pip install --user virtualenv)
 
 ## Installation
 
@@ -64,7 +64,7 @@ This project is a Flask-based web application that allows users to upload audio 
    flask --app vtext run
    ```
 
-2. Access the application in your web browser at `http://127.0.0.1:5000/`.
+2. Access the application in your web browser at `http://127.0.0.1:5000/` (for audio) and for video `http://127.0.0.1:5000/upload_video`
 
 3. Upload an audio or video file using the provided forms on the page.
 
